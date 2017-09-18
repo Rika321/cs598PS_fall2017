@@ -1,0 +1,143 @@
+% setup the document and include packages
+\documentclass{article}[12pt]
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{cancel}
+\usepackage{ntheorem}
+
+% redefine QED symbol
+\renewcommand{\qedsymbol}{\rule{0.7em}{0.7em}}
+
+% define lemma and result theorem-styled sections
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{result}{Result}[section]
+
+% define subsubsection for homework
+\renewcommand{\thesubsubsection}{\thesubsection.\alph{subsubsection}}
+
+% define the title that will be used in the report
+\title{CS 598 PS \\ Machine Learning for Signal Processing \\ Problem Set 1}
+\author{
+Christian Howard \\ howard28@illinois.edu
+}
+\date{} % don't set a date because we don't need this shit
+
+
+% start the document
+\begin{document}
+   
+   % create the title page 
+   \maketitle
+   %\begin{abstract}
+   %This report will co
+   %\end{abstract}
+   \newpage
+   
+   % create table of contents on separate page
+   \tableofcontents
+   \newpage
+   
+   % start section covering work on first problem
+   \section{Problem 1 - A Probability Problem}
+   For this first problem, the goal is to find the probability a woman has breast cancer given she has a positive mammograph. To present the solution to this problem, let me first define a few things that will prove useful. First, below is the notation for the various events:
+   
+   \vspace{10pt}
+   \begin{tabular}{l l}
+   $R_1$ = women has breast cancer & $R_2$ = women does not have breast cancer \\
+   $M^{+}$ = mammogram is positive & $M^{-}$ = mammogram is negative
+   \end{tabular}
+   \vspace{10pt}   
+   
+   In the problem statement, we are given the following information:
+   
+   \begin{itemize}
+   \item The probability that a woman has breast cancer is 0.8\%
+   \item If a woman has breast cancer, there is a probability of 90\% that the mammogram will be positive
+   \item If she has no breast cancer, the probability of a positive mammogram is 7\%
+   \end{itemize}
+   
+   Based on the above information, we can find the following probabilities:
+   
+   \begin{align*}
+   P(M^{+} | R_1) &= 0.9 \\
+   P(M^{+} | R_2) &= 0.07 \\
+   P(R_1) &= 0.008 \\
+   P(R_2) &= 0.992
+   \end{align*}
+   
+   Given the above information and definitions, our goal is to find $P(R_1 | M^{+})$. Using Baye's Rule, this becomes straight forward. The following is how we can arrive to the desired probability:
+   
+   \begin{align*}
+   P(R_1 | M^{+}) &= \frac{P(M^{+} | R_1) P(R_1) }{P(M^{+})} \\
+   &= \frac{P(M^{+} | R_1) P(R_1) }{P(M^{+} | R_1) P(R_1) + P(M^{+} | R_2) P(R_2)} \\
+   &= \frac{(0.9) (0.008) }{(0.9) (0.008) + (0.07) (0.992)} \\
+   &= 0.0939 \\
+   &= 9.39\%
+   \end{align*}
+   
+   Thus, we find that the probability of a woman with breast cancer getting a positive mammogram is 9.39\%.
+
+	\newpage
+	\section{Problem 2 - Manipulating Data using Linear Algebra}
+	\subsection{}
+	I am given $K$ grayscale images such that each image has dimension $M \times N$. For use as a data set, each image is vectorized and stuffed into a large data set matrix, $D$, that has dimension $(MN) \times K$.
+	
+	\subsubsection{}
+	The goal for this part is to return the mean image, let us call it $\mu_I$, for the above data set and return it as an $M \times N$ matrix. 
+	
+	Given the data set is represented by the matrix $D$, one simple way to approach this would be to multiply this matrix by a vector that will do the averaging for the vectorized form of the images and then invert the vectorization of the result. This final operation can be defined as the following:
+	
+	\begin{align*}
+	\mu_I &= (D \boldsymbol{v} )^{(M)}
+	\end{align*}
+	
+	where $\boldsymbol{v} = (v_1, v_2, \cdots, v_{T})$ is defined such that $v_i = \frac{1}{K} \forall i$ and $T = MN$ represents the total number of pixels in one image in the data set.
+	
+	\subsubsection{}
+	The goal for this part is to compute a $2 \times 2$ covariance matrix where this covariance is based on the mean color for the top and bottom half of a given image for all $K$ images in the data set. 
+	
+	Based on looking at patterns with simple $D$ values, it was found the following could be defined as the matrix needed to take the full dataset $D$ and return a new data set where each column has the desired average color values:
+	
+	\begin{align*}
+	H_{(M,N)} = \boldsymbol{1}_{(N)}^{T} \otimes I \otimes \left( \frac{2}{M} \boldsymbol{1}_{(M/2)}^{T}\right)
+	\end{align*}
+	
+	where $\boldsymbol{1}_{(p)} \in \{1 \}^{p \times 1}$ (i.e. a column vector of $1$s of dimension $p$). Using this matrix, and using the same $\boldsymbol{v}$ from the last problem, we can compute the covariance $\Sigma$ using the following:
+	
+	\begin{align*}
+	D_{\mu} &= H_{(M,N)}D \\
+	\boldsymbol{\mu} &= D_{\mu} \boldsymbol{v} \\
+	\boldsymbol{\delta} &= D_{\mu} - \boldsymbol{1}_{(K)}^{T} \otimes \boldsymbol{\mu} \\
+	\Sigma &= \frac{1}{K} \boldsymbol{\delta} \boldsymbol{\delta}^{T}
+	\end{align*}
+	
+	\subsection{}
+	To make things more interesting, now we are given a set of $K$ colored images where this whole data set is represented as a $M \times N \times 3 \times K$ tensor called $D$, where the dimension of size 3 is the color channel dimension.
+	
+	\subsubsection{}
+	For this part we are asked to compute the average color image, which I will define as $\mu_c$. First, for notational simplicity, let us define $I_p$ as an identity matrix of size $p \times p$. With this, we can find an operator to find the average image in its vectorized form using the following operation:
+	
+	\begin{align*}
+	\mu_c &= \left(\frac{1}{K}\boldsymbol{1}_{(K)}^{T} \otimes I_3 \otimes I_N \otimes I_M\right) \text{vec}(D)
+	\end{align*}
+	
+	Working left to right in the Kronecker product sequence, the first term represents an averaging row vector. This vector then undergoes a Kronecker product with a sequence of identity matrices of dimensions $3 \times 3$, $N \times N$, and $M \times M$ going from left to right. The resulting matrix, after all the Kronecker products, will take the vectorized data set and produce a vectorized average color image, $\mu_c$.
+	
+	\subsubsection{}
+	This next part is to instead compute the average image within just the red channel of the matrix. We will keep in mind that since the image is RGB, red will be the first channel in the third tensor dimension. With this defined, we can find the average vectorized red channel image, $\mu_r$,  using the below operation:
+	
+	\begin{align*}
+	\mu_r &= \left(\frac{1}{K}\boldsymbol{1}_{(K)}^{T} \otimes [1,0,0] \otimes I_N \otimes I_M\right) \text{vec}(D)
+	\end{align*}
+
+Using the above operation, the second term $[1, 0, 0]$ effectively zeros out contributions from the green and blue channels, producing an average vectorized $M \times N$ image which represents the average red channel image. If we wanted to go further and find the full $M \times N$ red image, called it $R_{\mu}$, we can obtain it simply using the vector transpose like so:
+
+\begin{align*}
+R_{\mu} &= \left(\mu_r\right)^{(M)}
+\end{align*}
+
+\newpage
+\section{Problem 3 - Signal Processing is Linear Algebra}
+
+
+\end{document}

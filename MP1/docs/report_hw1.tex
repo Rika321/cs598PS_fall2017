@@ -107,7 +107,7 @@ Christian Howard \\ howard28@illinois.edu
 	Based on looking at patterns with simple $D$ values, a transformation was found for going from a vectorized image to a two element vector with the two half image averages we desire. For notational simplicity, let us define $I_p$ as an identity matrix of size $p \times p$. Using this definition, the transformation matrix can be defined like so:
 	
 	\begin{align*}
-	H_{(M,N)} = \boldsymbol{1}_{(N)}^{T} \otimes I_2 \otimes \left( \frac{2}{MN} \boldsymbol{1}_{(M/2)}^{T}\right)
+	H_{(M,N)} = \frac{1}{N}\boldsymbol{1}_{(N)}^{T} \otimes I_2 \otimes \left( \frac{2}{M} \boldsymbol{1}_{(M/2)}^{T}\right)
 	\end{align*}
 	
 	where $\boldsymbol{1}_{(p)} \in \{1 \}^{p \times 1}$ (i.e. a column vector of $1$s of dimension $p$). Using this matrix, and using the same $\boldsymbol{v}$ from the last problem, we can compute the covariance $\Sigma$ using the following:

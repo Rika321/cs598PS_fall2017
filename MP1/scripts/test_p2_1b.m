@@ -9,7 +9,7 @@ Ig      = im2double(rgb2gray(Ic));
 vecIg   = real(Ig(:));
 
 % construct matrix operator
-A = kron(ones(1,N),kron(eye(2), 2/(N*M).*ones(1,M/2)));
+A = kron(ones(1,N)./N,kron(eye(2), 2/(M).*ones(1,M/2)));
 
 % compute average colors
 avg = A*vecIg;

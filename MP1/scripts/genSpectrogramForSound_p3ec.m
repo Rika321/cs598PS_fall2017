@@ -1,6 +1,5 @@
 % CS 598 PS - ML in Signal Processing
-% Problem Set 1 - Problem 3
-% Extra credit
+% Problem Set 1 - Problem 3 Extra credit
 % Author: Christian Howard
 
 %% clear the workspace
@@ -21,26 +20,14 @@ num_data        = length(sound_data);
 %% generate appropriate spectrogram matrix
 [A, num_windows] = genSpectrogramMat(dft_len, hop_size, num_data);
 
-%% plot spectrogram matrix magnitude
-figure
-spy(A)
-view([0 90])
-axis tight
-xlabel('Columns','FontSize',16)
-ylabel('Rows','FontSize',16)
-
-%% save the images
-print(gcf,'-dpng','-r300',['png/spectrogram_matrix.png'])
-saveas(gcf,['fig/spectrogram_matrix.fig'])
-
 %% compute spectrogram
 S       = A*sound_data;
 Smag    = 20*log10(abs(S)); % put magnitude in decibels 
 Z       = reshape(Smag,dft_len,num_windows);
 
 %% setup variables for plotting
-x       = linspace(0,1,num_windows).*time_elapsed;
-y       = (Fs/dft_len).*(0:(dft_len-1));
+x       = linspace(0,1,num_windows).*time_elapsed;  % time
+y       = (Fs/dft_len).*(0:(dft_len-1));            % frequencies
 [X,Y]   = meshgrid(x,y);
 
 %% plot the results

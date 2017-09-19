@@ -8,7 +8,7 @@ clear all; close all;
 %% define variables used in spectrogram
 dft_len  = 1024;
 hop_size = 512;
-num_data = 4*dft_len;
+num_data = 4*dft_len; % pick random data size for showing matrix structure
 
 %% generate appropriate spectrogram matrix
 [A, num_windows] = genSpectrogramMat(dft_len, hop_size, num_data);

@@ -156,7 +156,7 @@ For notational convenience, let us define $N$ as the number of points having the
 B = DH
 \end{align*}
 
-where $D \in \mathbb{C}^{N \times N}$ is the Fourier Matrix defined as $D_{jk} = \frac{1}{\sqrt{N}}e^{2\pi \iu j k /N  }$ and $H = \text{diag}(\boldsymbol{w})$ where $\boldsymbol{w} = [w_0, \cdots, w_{N-1}]^{T}$ and the elements of $\boldsymbol{w}$ can be defined as:
+where $D \in \mathbb{C}^{N \times N}$ is the Fourier Matrix defined as $D_{jk} = \frac{1}{\sqrt{N}}e^{2\pi \iu j k /N  }$ and $H = \text{diag}(\boldsymbol{w})$ represents the Hann window operator, where $\boldsymbol{w} = [w_0, \cdots, w_{N-1}]^{T}$ and the elements of $\boldsymbol{w}$ can be defined as:
 
 \begin{align*}
 w_k = \frac{1}{2} \left( 1 - \cos\left(\frac{2 \pi k}{N-1}\right)\right)

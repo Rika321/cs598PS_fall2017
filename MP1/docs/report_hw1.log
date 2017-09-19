@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  19 SEP 2017 02:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  19 SEP 2017 09:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -388,13 +388,13 @@ File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 62.
  [3] [4] [5]
-[6] <block_matrix.png, id=34, 305.14pt x 486.81876pt>
+[6] <block_matrix.png, id=36, 305.14pt x 486.81876pt>
 File: block_matrix.png Graphic file (type png)
  <use block_matrix.png>
 Package pdftex.def Info: block_matrix.png used on input line 169.
 (pdftex.def)             Requested size: 122.05382pt x 194.72404pt.
 
-<../scripts/png/spectrogram_matrix.png, id=36, 578.16pt x 433.62pt>
+<../scripts/png/spectrogram_matrix.png, id=38, 578.16pt x 433.62pt>
 File: ../scripts/png/spectrogram_matrix.png Graphic file (type png)
 
 <use ../scripts/png/spectrogram_matrix.png>
@@ -402,7 +402,7 @@ Package pdftex.def Info: ../scripts/png/spectrogram_matrix.png used on input li
 ne 176.
 (pdftex.def)             Requested size: 202.35902pt x 151.76927pt.
  [7 <./block_matrix.png> <../scripts/png/spectrogram_matrix.png (PNG copy)>]
-<../scripts/png/hello_clip2_spectrogram.png, id=42, 578.16pt x 433.62pt>
+<../scripts/png/hello_clip2_spectrogram.png, id=44, 578.16pt x 433.62pt>
 File: ../scripts/png/hello_clip2_spectrogram.png Graphic file (type png)
 
 <use ../scripts/png/hello_clip2_spectrogram.png>
@@ -410,7 +410,7 @@ Package pdftex.def Info: ../scripts/png/hello_clip2_spectrogram.png used on inp
 ut line 190.
 (pdftex.def)             Requested size: 202.35902pt x 151.76927pt.
 
-<../scripts/png/music_clip1_spectrogram.png, id=43, 578.16pt x 433.62pt>
+<../scripts/png/music_clip1_spectrogram.png, id=45, 578.16pt x 433.62pt>
 File: ../scripts/png/music_clip1_spectrogram.png Graphic file (type png)
 
 <use ../scripts/png/music_clip1_spectrogram.png>
@@ -423,31 +423,33 @@ ut line 197.
  [8 <../scripts/png/hello_clip2_spectrogram.png (PNG copy)> <../scripts/png/mus
 ic_clip1_spectrogram.png (PNG copy)>] (./report_hw1.aux) ) 
 Here is how much of TeX's memory you used:
- 2997 strings out of 492995
- 40697 string characters out of 6132704
+ 3001 strings out of 492995
+ 40733 string characters out of 6132704
  104751 words of memory out of 5000000
- 6484 multiletter control sequences out of 15000+600000
- 13952 words of font info for 53 fonts, out of 8000000 for 9000
+ 6486 multiletter control sequences out of 15000+600000
+ 14559 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  39i,14n,26p,547b,219s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2
 017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/20
 17/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/201
-7/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2017
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2017/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2017/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2017/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2017/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2017/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2017/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2017/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2017/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2017/texmf-dist/fon
-ts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on report_hw1.pdf (8 pages, 2243130 bytes).
+7/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2017/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2017/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2017/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2017/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2017/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2017/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2017/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2017/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2017/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2017/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2017/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2017/texmf-dist/fonts/ty
+pe1/public/amsfonts/symbols/msbm10.pfb>
+Output written on report_hw1.pdf (8 pages, 2265113 bytes).
 PDF statistics:
- 89 PDF objects out of 1000 (max. 8388607)
- 60 compressed objects within 1 object stream
+ 97 PDF objects out of 1000 (max. 8388607)
+ 66 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

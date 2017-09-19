@@ -36,9 +36,9 @@ Christian Howard \\ howard28@illinois.edu
    
    % create the title page 
    \maketitle
-   %\begin{abstract}
-   %This report will co
-   %\end{abstract}
+   \begin{abstract}
+   Within this report, problems spanning probability, tensors, and signal processing were tackled and solved. To grab some extra credit, two sounds were recorded and were used to produce a spectrogram using the code created in the last problem. 
+   \end{abstract}
    \newpage
    
    % create table of contents on separate page
@@ -93,21 +93,21 @@ Christian Howard \\ howard28@illinois.edu
 	\subsubsection{}
 	The goal for this part is to return the mean image, let us call it $\mu_I$, for the above data set and return it as an $M \times N$ matrix. 
 	
-	Given the data set is represented by the matrix $D$, one simple way to approach this would be to multiply this matrix by a vector that will do the averaging for the vectorized form of the images and then invert the vectorization of the result. This final operation can be defined as the following:
+	Given the data set is represented by the matrix $D$, one can multiply $D$ by a vector that will do the averaging for the vectorized form of the images and then invert the vectorization of the result. This final operation can be defined as the following:
 	
 	\begin{align*}
 	\mu_I &= (D \boldsymbol{v} )^{(M)}
 	\end{align*}
 	
-	where $\boldsymbol{v} = (v_1, v_2, \cdots, v_{T})$ is defined such that $v_i = \frac{1}{K} \forall i$ and $T = MN$ represents the total number of pixels in one image in the data set.
+	where $\boldsymbol{v} = (v_1, v_2, \cdots, v_{T})$ is defined such that $v_i = \frac{1}{K} \forall i$ and $T = MN$.
 	
 	\subsubsection{}
 	The goal for this part is to compute a $2 \times 2$ covariance matrix where this covariance is based on the mean color for the top and bottom half of a given image for all $K$ images in the data set. 
 	
-	Based on looking at patterns with simple $D$ values, it was found the following could be defined as the matrix needed to take the full dataset $D$ and return a new data set where each column has the desired average color values:
+	Based on looking at patterns with simple $D$ values, a transformation was found for going from a vectorized image to a two element vector with the two half image averages we desire. For notational simplicity, let us define $I_p$ as an identity matrix of size $p \times p$. Using this definition, the transformation matrix can be defined like so:
 	
 	\begin{align*}
-	H_{(M,N)} = \boldsymbol{1}_{(N)}^{T} \otimes I \otimes \left( \frac{2}{M} \boldsymbol{1}_{(M/2)}^{T}\right)
+	H_{(M,N)} = \boldsymbol{1}_{(N)}^{T} \otimes I_2 \otimes \left( \frac{2}{M} \boldsymbol{1}_{(M/2)}^{T}\right)
 	\end{align*}
 	
 	where $\boldsymbol{1}_{(p)} \in \{1 \}^{p \times 1}$ (i.e. a column vector of $1$s of dimension $p$). Using this matrix, and using the same $\boldsymbol{v}$ from the last problem, we can compute the covariance $\Sigma$ using the following:

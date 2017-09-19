@@ -4,6 +4,10 @@
 \usepackage{amssymb}
 \usepackage{cancel}
 \usepackage{ntheorem}
+\usepackage{graphicx}
+
+% specify directories to find images
+\graphicspath{ {./}{../scripts/png/} }
 
 % redefine QED symbol
 \renewcommand{\qedsymbol}{\rule{0.7em}{0.7em}}
@@ -11,6 +15,10 @@
 % define lemma and result theorem-styled sections
 \newtheorem{lemma}{Lemma}[section]
 \newtheorem{result}{Result}[section]
+\usepackage{easybmat}
+
+% define shortcut for complex i
+\newcommand{\iu}{{i\mkern1mu}}
 
 % define subsubsection for homework
 \renewcommand{\thesubsubsection}{\thesubsection.\alph{subsubsection}}
@@ -115,29 +123,82 @@ Christian Howard \\ howard28@illinois.edu
 	To make things more interesting, now we are given a set of $K$ colored images where this whole data set is represented as a $M \times N \times 3 \times K$ tensor called $D$, where the dimension of size 3 is the color channel dimension.
 	
 	\subsubsection{}
-	For this part we are asked to compute the average color image, which I will define as $\mu_c$. First, for notational simplicity, let us define $I_p$ as an identity matrix of size $p \times p$. With this, we can find an operator to find the average image in its vectorized form using the following operation:
+	For this part we are asked to compute the average image across both the $K$ data samples and $3$ color channels, which I will define as $\mu_I$. First, for notational simplicity, let us define $I_p$ as an identity matrix of size $p \times p$. With this, we can find an operator to find the average image in its vectorized form using the following operation:
 	
 	\begin{align*}
-	\mu_c &= \left(\frac{1}{K}\boldsymbol{1}_{(K)}^{T} \otimes I_3 \otimes I_N \otimes I_M\right) \text{vec}(D)
+	\mu_I &= \left(\left(\frac{1}{K}\boldsymbol{1}_{(K)}^{T} \otimes \frac{1}{3} \boldsymbol{1}_{(3)}^{T} \otimes I_N \otimes I_M\right) \text{vec}(D) \right)^{(M)}
 	\end{align*}
 	
-	Working left to right in the Kronecker product sequence, the first term represents an averaging row vector. This vector then undergoes a Kronecker product with a sequence of identity matrices of dimensions $3 \times 3$, $N \times N$, and $M \times M$ going from left to right. The resulting matrix, after all the Kronecker products, will take the vectorized data set and produce a vectorized average color image, $\mu_c$.
+	Working left to right in the Kronecker product sequence, the first term represents an averaging row vector over the $K$ pieces of data. The second term from the left then specifies an averaging row vector over the $3$ color channels. This vector then undergoes a Kronecker product with a sequence of identity matrices of dimensions $N \times N$, and $M \times M$ going from left to right. The resulting matrix, after all the Kronecker products, will take the vectorized data set and produce an $M \times N$ average image $\mu_I$.
 	
 	\subsubsection{}
-	This next part is to instead compute the average image within just the red channel of the matrix. We will keep in mind that since the image is RGB, red will be the first channel in the third tensor dimension. With this defined, we can find the average vectorized red channel image, $\mu_r$,  using the below operation:
+	This next part is to instead compute the average image within just the red channel of the matrix. We will keep in mind that since the image is RGB, red will be the first channel in the third tensor dimension. With this defined, we can find the average $M \times N$ red channel image, $\mu_r$,  using the below operation:
 	
 	\begin{align*}
-	\mu_r &= \left(\frac{1}{K}\boldsymbol{1}_{(K)}^{T} \otimes [1,0,0] \otimes I_N \otimes I_M\right) \text{vec}(D)
+	\mu_r &= \left( \left(\frac{1}{K}\boldsymbol{1}_{(K)}^{T} \otimes [1,0,0] \otimes I_N \otimes I_M\right) \text{vec}(D) \right)^{(M)}
 	\end{align*}
 
-Using the above operation, the second term $[1, 0, 0]$ effectively zeros out contributions from the green and blue channels, producing an average vectorized $M \times N$ image which represents the average red channel image. If we wanted to go further and find the full $M \times N$ red image, called it $R_{\mu}$, we can obtain it simply using the vector transpose like so:
-
-\begin{align*}
-R_{\mu} &= \left(\mu_r\right)^{(M)}
-\end{align*}
+Using the above operation, the second term $[1, 0, 0]$ effectively zeros out contributions from the green and blue channels, producing an average vectorized $M \times N$ image which represents the average red channel image. We then vec-transpose the result to obtain an $M \times N$ average red image.
 
 \newpage
 \section{Problem 3 - Signal Processing is Linear Algebra}
+Within this problem, the goal is to find an expression for a matrix $A$ such that one can multiply this matrix by some input sound $\boldsymbol{x}$ and produce the vectorized complex-valued spectrogram for this sound. Some desired traits for this matrix $A$ are the following:
+
+\begin{itemize}
+\item The transformation will be based on a 1024 point Discrete Fourier Transform (DFT)
+\item The transformation will use a Hann window
+\item The transformation will be based on a hop size of 512 points
+\end{itemize}
+
+For notational convenience, let us define $N$ as the number of points having the windowing and DFT performed on them. Let us also define $h$ as the hop size value being used and $M$ as the number of windows we will be processing. To formulate this matrix $A$, let us first take a look at a local window of $N$ data points. The transformation needed to process this data is the matrix $B$, defined below as:
+
+\begin{align*}
+B = DH
+\end{align*}
+
+where $D \in \mathbb{C}^{N \times N}$ is the Fourier Matrix defined as $D_{jk} = \frac{1}{\sqrt{N}}e^{2\pi \iu j k /N  }$ and $H = \text{diag}(\boldsymbol{w})$ where $\boldsymbol{w} = [w_0, \cdots, w_{N-1}]^{T}$ and the elements of $\boldsymbol{w}$ can be defined as:
+
+\begin{align*}
+w_k = \frac{1}{2} \left( 1 - \cos\left(\frac{2 \pi k}{N-1}\right)\right)
+\end{align*}
+
+\newpage
+Given the definition of matrix $B$, we can then construct the overall matrix $A$ by embedding $B$ within $A$ as $M$ different submatrices shifted $h$ columns to the right and $N$ rows down relative to where the previous submatrix is located. This can be visualized by using the structure shown below:
+
+\begin{figure}[h]
+\includegraphics[scale=0.4]{block_matrix}
+\centering
+\end{figure}
+
+Using this structure, an example graphic of $||A||$ with the DFT and Hann window built into it is the following:
+
+\begin{figure}[h]
+\includegraphics[scale=0.35]{spectrogram_matrix}
+\centering
+\end{figure}
+
+Now with matrix $A$ defined properly, we can then produce a $N \times M$ spectrogram matrix $S$ using the following:
+
+\begin{align*}
+S &= (A \boldsymbol{x})^{(N)}
+\end{align*}
+
+\newpage
+Using this formulation for $A$ and the specific constraints mentioned above, i.e. $N = 1024$, $h = 512$, below are two sample spectrograms based on two sounds that I recorded so I can grab some of that extra credit:
+
+\begin{figure}[h]
+\includegraphics[scale=0.35]{hello_clip2_spectrogram}
+\centering
+\caption{Spectrogram from saying "Hello my name is Christian"}
+\centering
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[scale=0.35]{music_clip1_spectrogram}
+\centering
+\caption{Spectrogram from random 2 second portion of Hollywood Undead song}
+\centering
+\end{figure}
 
 
 \end{document}

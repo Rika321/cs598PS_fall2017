@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  18 SEP 2017 14:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  19 SEP 2017 02:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -131,30 +131,240 @@ Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 \thm@topsep=\skip52
 \thm@topsepadd=\skip53
 )
-\c@lemma=\count99
-\c@result=\count100
+(/usr/local/texlive/2017/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
 
-(./report_hw1.aux)
+(/usr/local/texlive/2017/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks37
+)
+(/usr/local/texlive/2017/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2017/04/14 v1.1b Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2017/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+(/usr/local/texlive/2017/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+
+(/usr/local/texlive/2017/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2017/01/12 v0.06k Graphics/color for pdfTeX
+
+(/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+)
+(/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count99
+))
+\Gin@req@height=\dimen116
+\Gin@req@width=\dimen117
+)
+\c@lemma=\count100
+\c@result=\count101
+
+(/usr/local/texlive/2017/texmf-dist/tex/latex/easy/easybmat.sty
+Document Style `easybmat' v1.0 <2001/06/13>.
+(/usr/local/texlive/2017/texmf-dist/tex/latex/easy/easy.sty
+Document Style `easy' v1.1 <2001/05/31>.
+Package: easy 2001/05/31 v1.1
+\@easy@level=\count102
+\@easy@ncol=\count103
+\@easy@nrow=\count104
+\@easy@cnt=\count105
+\@easy@boxviii=\box28
+\@easy@minxviii=\dimen118
+\@easy@minyviii=\dimen119
+\@easy@maxxviii=\dimen120
+\@easy@maxyviii=\dimen121
+\@easy@boxvii=\box29
+\@easy@minxvii=\dimen122
+\@easy@minyvii=\dimen123
+\@easy@maxxvii=\dimen124
+\@easy@maxyvii=\dimen125
+\@easy@boxvi=\box30
+\@easy@minxvi=\dimen126
+\@easy@minyvi=\dimen127
+\@easy@maxxvi=\dimen128
+\@easy@maxyvi=\dimen129
+\@easy@boxv=\box31
+\@easy@minxv=\dimen130
+\@easy@minyv=\dimen131
+\@easy@maxxv=\dimen132
+\@easy@maxyv=\dimen133
+\@easy@boxiv=\box32
+\@easy@minxiv=\dimen134
+\@easy@minyiv=\dimen135
+\@easy@maxxiv=\dimen136
+\@easy@maxyiv=\dimen137
+\@easy@boxiii=\box33
+\@easy@minxiii=\dimen138
+\@easy@minyiii=\dimen139
+\@easy@maxxiii=\dimen140
+\@easy@maxyiii=\dimen141
+\@easy@boxii=\box34
+\@easy@minxii=\dimen142
+\@easy@minyii=\dimen143
+\@easy@maxxii=\dimen144
+\@easy@maxyii=\dimen145
+\@easy@boxi=\box35
+\@easy@minxi=\dimen146
+\@easy@minyi=\dimen147
+\@easy@maxxi=\dimen148
+\@easy@maxyi=\dimen149
+\@easy@hsizexxx=\dimen150
+\@easy@vsizexxx=\dimen151
+\@easy@hsizexxix=\dimen152
+\@easy@vsizexxix=\dimen153
+\@easy@hsizexxviii=\dimen154
+\@easy@vsizexxviii=\dimen155
+\@easy@hsizexxvii=\dimen156
+\@easy@vsizexxvii=\dimen157
+\@easy@hsizexxvi=\dimen158
+\@easy@vsizexxvi=\dimen159
+\@easy@hsizexxv=\dimen160
+\@easy@vsizexxv=\dimen161
+\@easy@hsizexxiv=\dimen162
+\@easy@vsizexxiv=\dimen163
+\@easy@hsizexxiii=\dimen164
+\@easy@vsizexxiii=\dimen165
+\@easy@hsizexxii=\dimen166
+\@easy@vsizexxii=\dimen167
+\@easy@hsizexxi=\dimen168
+\@easy@vsizexxi=\dimen169
+\@easy@hsizexx=\dimen170
+\@easy@vsizexx=\dimen171
+\@easy@hsizexix=\dimen172
+\@easy@vsizexix=\dimen173
+\@easy@hsizexviii=\dimen174
+\@easy@vsizexviii=\dimen175
+\@easy@hsizexvii=\dimen176
+\@easy@vsizexvii=\dimen177
+\@easy@hsizexvi=\dimen178
+\@easy@vsizexvi=\dimen179
+\@easy@hsizexv=\dimen180
+\@easy@vsizexv=\dimen181
+\@easy@hsizexiv=\dimen182
+\@easy@vsizexiv=\dimen183
+\@easy@hsizexiii=\dimen184
+\@easy@vsizexiii=\dimen185
+\@easy@hsizexii=\dimen186
+\@easy@vsizexii=\dimen187
+\@easy@hsizexi=\dimen188
+\@easy@vsizexi=\dimen189
+\@easy@hsizex=\dimen190
+\@easy@vsizex=\dimen191
+\@easy@hsizeix=\dimen192
+\@easy@vsizeix=\dimen193
+\@easy@hsizeviii=\dimen194
+\@easy@vsizeviii=\dimen195
+\@easy@hsizevii=\dimen196
+\@easy@vsizevii=\dimen197
+\@easy@hsizevi=\dimen198
+\@easy@vsizevi=\dimen199
+\@easy@hsizev=\dimen256
+\@easy@vsizev=\dimen257
+\@easy@hsizeiv=\dimen258
+\@easy@vsizeiv=\dimen259
+\@easy@hsizeiii=\dimen260
+\@easy@vsizeiii=\dimen261
+\@easy@hsizeii=\dimen262
+\@easy@vsizeii=\dimen263
+\@easy@hsizei=\dimen264
+\@easy@vsizei=\dimen265
+\@easy@dash@len=\dimen266
+\@easy@dash@sep=\dimen267
+)
+Package: easybmat 2001/05/31 v1.1
+\@bmat@size@rule=\dimen268
+\@bmat@size@dash=\dimen269
+) (./report_hw1.aux)
 \openout1 = `report_hw1.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Try loading font information for U+msa on input line 30.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+
+(/usr/local/texlive/2017/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count106
+\scratchdimen=\dimen270
+\scratchbox=\box36
+\nofMPsegments=\count107
+\nofMParguments=\count108
+\everyMPshowfont=\toks38
+\MPscratchCnt=\count109
+\MPscratchDim=\dimen271
+\MPnumerator=\count110
+\makeMPintoPDFobject=\count111
+\everyMPtoPDFconversion=\toks39
+) (/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+(/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/usr/local/texlive/2017/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+(/usr/local/texlive/2017/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+
+(/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+))
+(/usr/local/texlive/2017/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+
+(/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+
+(/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+
+(/usr/local/texlive/2017/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+LaTeX Font Info:    Try loading font information for U+msa on input line 38.
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 30.
+LaTeX Font Info:    Try loading font information for U+msb on input line 38.
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -167,47 +377,77 @@ rt_hw1.toc)
 
 
 [2]
-Overfull \hbox (11.59346pt too wide) in paragraph at lines 45--50
+Overfull \hbox (11.59346pt too wide) in paragraph at lines 53--58
 [][]
  []
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 54.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 62.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 54.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 62.
  [3] [4] [5]
+[6] <block_matrix.png, id=34, 305.14pt x 486.81876pt>
+File: block_matrix.png Graphic file (type png)
+ <use block_matrix.png>
+Package pdftex.def Info: block_matrix.png used on input line 169.
+(pdftex.def)             Requested size: 122.05382pt x 194.72404pt.
+
+<../scripts/png/spectrogram_matrix.png, id=36, 578.16pt x 433.62pt>
+File: ../scripts/png/spectrogram_matrix.png Graphic file (type png)
+
+<use ../scripts/png/spectrogram_matrix.png>
+Package pdftex.def Info: ../scripts/png/spectrogram_matrix.png used on input li
+ne 176.
+(pdftex.def)             Requested size: 202.35902pt x 151.76927pt.
+ [7 <./block_matrix.png> <../scripts/png/spectrogram_matrix.png (PNG copy)>]
+<../scripts/png/hello_clip2_spectrogram.png, id=42, 578.16pt x 433.62pt>
+File: ../scripts/png/hello_clip2_spectrogram.png Graphic file (type png)
+
+<use ../scripts/png/hello_clip2_spectrogram.png>
+Package pdftex.def Info: ../scripts/png/hello_clip2_spectrogram.png used on inp
+ut line 190.
+(pdftex.def)             Requested size: 202.35902pt x 151.76927pt.
+
+<../scripts/png/music_clip1_spectrogram.png, id=43, 578.16pt x 433.62pt>
+File: ../scripts/png/music_clip1_spectrogram.png Graphic file (type png)
+
+<use ../scripts/png/music_clip1_spectrogram.png>
+Package pdftex.def Info: ../scripts/png/music_clip1_spectrogram.png used on inp
+ut line 197.
+(pdftex.def)             Requested size: 202.35902pt x 151.76927pt.
 \tf@thm=\write4
 \openout4 = `report_hw1.thm'.
 
-
-[6] (./report_hw1.aux) ) 
+ [8 <../scripts/png/hello_clip2_spectrogram.png (PNG copy)> <../scripts/png/mus
+ic_clip1_spectrogram.png (PNG copy)>] (./report_hw1.aux) ) 
 Here is how much of TeX's memory you used:
- 1508 strings out of 492995
- 17967 string characters out of 6132704
- 79871 words of memory out of 5000000
- 5072 multiletter control sequences out of 15000+600000
+ 2997 strings out of 492995
+ 40697 string characters out of 6132704
+ 104751 words of memory out of 5000000
+ 6484 multiletter control sequences out of 15000+600000
  13952 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 27i,13n,26p,439b,199s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2017/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmbx10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmbx12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmex10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmmi10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmmi7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmmib10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmr10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmr12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmr17.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmr7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cms
-y10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
-7.pfb>
-Output written on report_hw1.pdf (6 pages, 137885 bytes).
+ 39i,14n,26p,547b,219s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2
+017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/20
+17/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/201
+7/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2017
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2017/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2017/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2017/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2017/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2017/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2017/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2017/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2017/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2017/texmf-dist/fon
+ts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on report_hw1.pdf (8 pages, 2243130 bytes).
 PDF statistics:
- 71 PDF objects out of 1000 (max. 8388607)
- 50 compressed objects within 1 object stream
+ 89 PDF objects out of 1000 (max. 8388607)
+ 60 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

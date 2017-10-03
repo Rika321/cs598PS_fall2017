@@ -1,10 +1,8 @@
+# import useful libraries/modules
 import myml.pca     as mypca
 import myml.images  as myimg
-import mysp.sound   as mysnd
 import numpy        as np
-import numpy.linalg as la
 import scipy.io     as sio
-import scipy.io.wavfile as wav
 import matplotlib.pyplot   as plot
 import sklearn.decomposition as skd
 
@@ -41,7 +39,7 @@ if __name__ == '__main__':
 
     # Perform NMF from zero-mean form of data
     nmf_obj = skd.NMF(n_components=num_features, random_state=17)
-    H = nmf_obj.fit_transform(D.T).T
+    H = nmf_obj.fit_transform(np.abs(Dn).T).T
     W3 = nmf_obj.components_.T
 
 
@@ -50,20 +48,20 @@ if __name__ == '__main__':
     ax1 = fg1.add_subplot(111)
     img_set1 = myimg.plot_img_features(W1pi, (28, 28), (6, 6))
     ax1.imshow(img_set1)
-    fg1.savefig('pca_features.png')
+    fg1.savefig('p2/pca_features_digits.png')
 
     fg2 = plot.figure()
     ax2 = fg2.add_subplot(111)
     img_set2 = myimg.plot_img_features(W2pi, (28, 28), (6, 6))
     ax2.imshow(img_set2)
-    fg2.savefig('ica_features.png')
+    fg2.savefig('p2/ica_features_digits.png')
 
 
     fg3 = plot.figure()
     ax3 = fg3.add_subplot(111)
     img_set3 = myimg.plot_img_features(W3, (28, 28), (6, 6))
     ax3.imshow(img_set3)
-    fg3.savefig('nmf_features.png')
+    fg3.savefig('p2/nmf_features_digits.png')
 
 
-    plot.show()
+    #plot.show()

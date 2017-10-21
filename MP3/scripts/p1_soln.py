@@ -46,8 +46,8 @@ if __name__ == "__main__":
 
     # setup plotting related variables
     N   = 500
-    x1  = np.linspace(-5,10,N)
-    x2  = np.linspace(-5,10,N)
+    x1  = np.linspace(-3,7,N)
+    x2  = np.linspace(-4,6,N)
     (X1,X2) = np.meshgrid(x1, x2)
     U = np.concatenate((X1.reshape(1,N*N),X2.reshape(1,N*N)),0)
     figures = [plot.figure(),plot.figure(),plot.figure(),plot.figure()]
@@ -57,21 +57,25 @@ if __name__ == "__main__":
     for (part, mean1, cov1, mean2, cov2, fig) in zip(['a','b','c','d'],m1,C1,m2,C2, figures):
         gaussDiscr1 = dscmt.getGaussianDiscriminantParams(mean1, cov1, 0.5)
         gaussDiscr2 = dscmt.getGaussianDiscriminantParams(mean2, cov2, 0.5)
-        Z = np.sign(dscmt.evalGaussianDiscriminant(U,gaussDiscr1)
+        Z = (dscmt.evalGaussianDiscriminant(U,gaussDiscr1)
                     - dscmt.evalGaussianDiscriminant(U,gaussDiscr2)).reshape(N,N)
 
         # plot boundary
         ax = fig.add_subplot(111)
-        h0 = ax.contour(X1,X2,Z,cmap=plot.get_cmap('Blues'))
+        h0 = ax.contour(X1,X2,Z,cmap=plot.get_cmap('viridis'),levels=[0])
+        plot.clabel(h0,inline=1, fontsize=10)
 
         # plot the gaussian distributions
         G1 = dscmt.evalGuassianPDF(U, mean1, cov1, gaussDiscr1[3]).reshape(N, N)
         G2 = dscmt.evalGuassianPDF(U, mean2, cov2, gaussDiscr2[3]).reshape(N, N)
-        h1 = ax.contour(X1,X2,G1)
-        h2 = ax.contour(X1,X2,G2)
+        h1 = ax.contour(X1,X2,G1,cmap=plot.get_cmap('plasma'))
+        plot.clabel(h1, inline=1, fontsize=10)
+        h2 = ax.contour(X1,X2,G2,cmap=plot.get_cmap('plasma'))
+        plot.clabel(h2, inline=1, fontsize=10)
         ax.set_xlabel('$$x_1$$')
         ax.set_ylabel('$$x_2$$')
-        ax.set_title('Part {0} Discriminant'.format(part))
+        #ax.set_title('Part {0} Discriminant'.format(part))
+        ax.axis('equal')
 
         # save the figure
         fig.savefig('p1/discriminant_{0}.png'.format(part),dpi=300)

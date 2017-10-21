@@ -8,22 +8,25 @@
 # import useful libraries
 import os
 import numpy                as np
+import matplotlib.pyplot    as plot
 
 # import personal libraries
 import myml.factorizations  as myfac
 import myml.data_separation as mydata
 import myml.discriminant    as mydsc
+import myml.images          as myimg
 import hw3.p3_io            as p3io
 
 if __name__ == "__main__":
 
     # load recorded sound spectrograms
-    (Sm, Ss, freq) = p3io.loadRecordedData()
+    (Sm, Ss, Sm0, Ss0, freq) = p3io.loadRecordedData()
 
     # get music/speech dataset
     # frequency is at 22,050 Hz
     (S,L) = p3io.loadProvidedData()
     (d,nd)= S.shape
+    smean = myfac.getMeanData(S)
 
     # create map for the music and speech indices
     imap = {'music':0, 'speech':1}
@@ -35,7 +38,7 @@ if __name__ == "__main__":
     # break up the dataset into a training and testing dataset a couple times
     # and evaluate the performance of the discriminant classifier developed
     ind = np.linspace(0,nd-1,dtype=int)
-    num_experiments = 100
+    num_experiments = 1000
     num_classes     = 2
     success_rate = np.zeros((num_experiments,1))
     for ne in range(0,num_experiments):
@@ -48,7 +51,7 @@ if __name__ == "__main__":
         Ln = L[:,ind]
 
         # Split dataset into training and testing
-        (train, test) = mydata.separateClassData( Sn, Ln, numdata_or_percent_for_training=0.10 )
+        (train, test) = mydata.separateClassData( Sn, Ln, numdata_or_percent_for_training=0.90 )
 
         # create the classifier
         dlist = dict()
@@ -106,4 +109,18 @@ if __name__ == "__main__":
         print('Recorded speech is classified as Music class')
     else:
         print('Recorded speech is classified as Speech class')
+
+    # generate spectrogram images for input sounds
+    f1 = plot.figure()
+    (f1, ax1) = myimg.plotDataset(f1, Ss0)
+    ax1.set_xlabel('Number of Time Samples')
+    ax1.set_ylabel('Number of Frequency Terms')
+    f1.savefig('p3/spectrogram_speech.png')
+
+    f2 = plot.figure()
+    (f2, ax2) = myimg.plotDataset(f2, Sm0)
+    ax2.set_xlabel('Number of Time Samples')
+    ax2.set_ylabel('Number of Frequency Terms')
+    f2.savefig('p3/spectrogram_music.png')
+
 

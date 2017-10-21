@@ -1,0 +1,128 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c+c1}{\PYGZsh{}import useful libraries}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k+kn}{as} \PYG{n+nn}{np}
+
+\PYG{k}{def} \PYG{n+nf}{projrep}\PYG{p}{(}\PYG{n}{A}\PYG{p}{,} \PYG{n}{k\PYGZus{}or\PYGZus{}tol}\PYG{p}{,} \PYG{n}{random\PYGZus{}seed} \PYG{o}{=} \PYG{l+m+mi}{17}\PYG{p}{,} \PYG{n}{num\PYGZus{}power\PYGZus{}method} \PYG{o}{=} \PYG{l+m+mi}{4}\PYG{p}{):}
+  \PYG{c+c1}{\PYGZsh{} Author: Christian Howard}
+  \PYG{c+c1}{\PYGZsh{} This function is designed to take some input matrix A}
+  \PYG{c+c1}{\PYGZsh{} and approximate it by the low\PYGZhy{}rank form A = Q*(Q\PYGZca{}T*A) = Q*B.}
+  \PYG{c+c1}{\PYGZsh{} This form is achieved using randomized algorithms and}
+  \PYG{c+c1}{\PYGZsh{} allows for adaptive rank reduction}
+  \PYG{c+c1}{\PYGZsh{}}
+  \PYG{c+c1}{\PYGZsh{} Inputs:}
+  \PYG{c+c1}{\PYGZsh{} A: Matrix to be approximated by low\PYGZhy{}rank form}
+  \PYG{c+c1}{\PYGZsh{} k\PYGZus{}or\PYGZus{}tol: If value \PYGZgt{}= 1, it sets that rank as the target.}
+  \PYG{c+c1}{\PYGZsh{}           If 0 \PYGZlt{} value \PYGZlt{} 1, tries to adaptively find low rank form}
+
+  \PYG{c+c1}{\PYGZsh{} get dimensions of A}
+  \PYG{p}{(}\PYG{n}{r}\PYG{p}{,} \PYG{n}{c}\PYG{p}{)} \PYG{o}{=} \PYG{n}{A}\PYG{o}{.}\PYG{n}{shape}
+
+  \PYG{c+c1}{\PYGZsh{} get the smallest dimension}
+  \PYG{n}{sdim} \PYG{o}{=} \PYG{n+nb}{min}\PYG{p}{(}\PYG{n}{r}\PYG{p}{,} \PYG{n}{c}\PYG{p}{)}
+
+  \PYG{k}{if} \PYG{n}{k\PYGZus{}or\PYGZus{}tol} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{1}\PYG{p}{:}
+      \PYG{n}{k} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{k\PYGZus{}or\PYGZus{}tol}\PYG{p}{)}
+
+      \PYG{c+c1}{\PYGZsh{} get the random input and measurements from column space}
+      \PYG{n}{omega}   \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randn}\PYG{p}{(}\PYG{n}{c}\PYG{p}{,} \PYG{n}{k}\PYG{p}{)}
+      \PYG{n}{Y}       \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{A}\PYG{p}{,} \PYG{n}{omega}\PYG{p}{)}
+
+      \PYG{c+c1}{\PYGZsh{} form estimate for Q using power method}
+      \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{num\PYGZus{}power\PYGZus{}method}\PYG{p}{):}
+          \PYG{n}{Q1}\PYG{p}{,} \PYG{n}{R1} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{qr}\PYG{p}{(}\PYG{n}{Y}\PYG{p}{)}
+          \PYG{n}{Q2}\PYG{p}{,} \PYG{n}{R2} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{qr}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{A}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{Q1}\PYG{p}{[:,} \PYG{p}{:}\PYG{n}{k}\PYG{p}{]))}
+          \PYG{n}{Y} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{A}\PYG{p}{,} \PYG{n}{Q2}\PYG{p}{[:,} \PYG{p}{:}\PYG{n}{k}\PYG{p}{])}
+      \PYG{n}{Q3}\PYG{p}{,} \PYG{n}{R3} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{qr}\PYG{p}{(}\PYG{n}{Y}\PYG{p}{)}
+
+      \PYG{c+c1}{\PYGZsh{} get final k orthogonal vector estimates from column space}
+      \PYG{n}{Q} \PYG{o}{=} \PYG{n}{Q3}\PYG{p}{[:,} \PYG{p}{:}\PYG{n}{k}\PYG{p}{]}
+
+      \PYG{c+c1}{\PYGZsh{} compute weights associated with the column space to approximate A}
+      \PYG{n}{B} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{Q}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,}\PYG{n}{A}\PYG{p}{)}
+
+      \PYG{c+c1}{\PYGZsh{} return the two matrices}
+      \PYG{k}{return} \PYG{p}{(}\PYG{n}{Q}\PYG{p}{,}\PYG{n}{B}\PYG{p}{)}
+  \PYG{k}{else}\PYG{p}{:}
+
+      \PYG{c+c1}{\PYGZsh{} init some variables used in algorithm}
+      \PYG{n}{eps} \PYG{o}{=} \PYG{n}{k\PYGZus{}or\PYGZus{}tol}
+      \PYG{n}{err} \PYG{o}{=} \PYG{l+m+mf}{1e20}
+      \PYG{n}{kt}  \PYG{o}{=} \PYG{l+m+mi}{0}
+      \PYG{n}{k}   \PYG{o}{=} \PYG{n}{math}\PYG{o}{.}\PYG{n}{ceil}\PYG{p}{(}\PYG{l+m+mf}{0.14} \PYG{o}{*} \PYG{n}{sdim}\PYG{p}{)}
+      \PYG{n}{iter\PYGZus{}max}    \PYG{o}{=} \PYG{l+m+mi}{14}
+      \PYG{n+nb}{iter}        \PYG{o}{=} \PYG{l+m+mi}{1}
+      \PYG{n}{Qt} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{((}\PYG{n}{r}\PYG{p}{,} \PYG{n}{c}\PYG{p}{))}
+
+      \PYG{c+c1}{\PYGZsh{} adaptively try to estimate the rank via}
+      \PYG{c+c1}{\PYGZsh{} finding column space estimates}
+      \PYG{k}{while} \PYG{n}{err} \PYG{o}{\PYGZgt{}} \PYG{n}{eps} \PYG{o+ow}{and} \PYG{n}{iter\PYGZus{}max} \PYG{o}{!=} \PYG{n+nb}{iter}\PYG{p}{:}
+
+          \PYG{c+c1}{\PYGZsh{} get the random input and measurements}
+          \PYG{n}{omega} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randn}\PYG{p}{(}\PYG{n}{c}\PYG{p}{,} \PYG{n}{k}\PYG{p}{)}
+          \PYG{n}{Y} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{A}\PYG{p}{,} \PYG{n}{omega}\PYG{p}{)}
+
+          \PYG{c+c1}{\PYGZsh{} form estimate for Q using power method}
+          \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{num\PYGZus{}power\PYGZus{}method}\PYG{p}{):}
+              \PYG{n}{Q1}\PYG{p}{,} \PYG{n}{R1} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{qr}\PYG{p}{(}\PYG{n}{Y}\PYG{p}{)}
+              \PYG{n}{Q2}\PYG{p}{,} \PYG{n}{R2} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{qr}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{A}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{Q1}\PYG{p}{[:,} \PYG{p}{:}\PYG{n}{k}\PYG{p}{]))}
+              \PYG{n}{Y} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{A}\PYG{p}{,} \PYG{n}{Q2}\PYG{p}{[:,} \PYG{p}{:}\PYG{n}{k}\PYG{p}{])}
+          \PYG{n}{Q3}\PYG{p}{,} \PYG{n}{R3} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{qr}\PYG{p}{(}\PYG{n}{Y}\PYG{p}{)}
+          \PYG{n}{Q} \PYG{o}{=} \PYG{n}{Q3}\PYG{p}{[:,} \PYG{p}{:}\PYG{n}{k}\PYG{p}{]}  \PYG{c+c1}{\PYGZsh{} get final k orthogonal vector estimates from column space}
+
+          \PYG{c+c1}{\PYGZsh{} compute error estimate}
+          \PYG{n}{o} \PYG{o}{=} \PYG{n}{Q}\PYG{p}{[:,} \PYG{l+m+mi}{0}\PYG{p}{]}  \PYG{c+c1}{\PYGZsh{} use eigenvector from A as initial \PYGZdq{}random\PYGZdq{} vec}
+
+          \PYG{c+c1}{\PYGZsh{} compute normalized eigenvector estimate for error matrix E}
+          \PYG{n}{z} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{A}\PYG{p}{,} \PYG{n}{o}\PYG{p}{)}
+          \PYG{n}{y} \PYG{o}{=} \PYG{n}{z} \PYG{o}{\PYGZhy{}} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{Q}\PYG{p}{,} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{Q}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{z}\PYG{p}{))}
+          \PYG{n}{y} \PYG{o}{=} \PYG{n}{y} \PYG{o}{/} \PYG{n}{np}\PYG{o}{.}\PYG{n}{amax}\PYG{p}{(}\PYG{n}{y}\PYG{p}{)}
+
+          \PYG{c+c1}{\PYGZsh{} use multiple iterations of power method y = (E*E\PYGZsq{})\PYGZca{}\PYGZob{}n\PYGZcb{}*y}
+          \PYG{c+c1}{\PYGZsh{} to get most dominant singular vector}
+          \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{num\PYGZus{}power\PYGZus{}method}\PYG{p}{):}
+              \PYG{n}{z} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{A}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}
+              \PYG{n}{y} \PYG{o}{=} \PYG{n}{z} \PYG{o}{\PYGZhy{}} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{Q}\PYG{p}{,} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{Q}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{z}\PYG{p}{))}
+              \PYG{n}{y} \PYG{o}{=} \PYG{n}{y} \PYG{o}{/} \PYG{n}{np}\PYG{o}{.}\PYG{n}{amax}\PYG{p}{(}\PYG{n}{y}\PYG{p}{)}
+              \PYG{n}{z} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{A}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}
+              \PYG{n}{y} \PYG{o}{=} \PYG{n}{z} \PYG{o}{\PYGZhy{}} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{Q}\PYG{p}{,} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{Q}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{z}\PYG{p}{))}
+              \PYG{n}{y} \PYG{o}{=} \PYG{n}{y} \PYG{o}{/} \PYG{n}{np}\PYG{o}{.}\PYG{n}{amax}\PYG{p}{(}\PYG{n}{y}\PYG{p}{)}
+
+          \PYG{c+c1}{\PYGZsh{} compute largest singular value estimate based on dominant singular vector}
+          \PYG{c+c1}{\PYGZsh{} assume singular value estimate as the error since same as 2\PYGZhy{}norm of E}
+          \PYG{n}{z} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{A}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}
+          \PYG{n}{err} \PYG{o}{=} \PYG{n+nb}{abs}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{y}\PYG{p}{,} \PYG{n}{z} \PYG{o}{\PYGZhy{}} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{Q}\PYG{p}{,} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{Q}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{z}\PYG{p}{)))} \PYG{o}{/} \PYG{n}{np}\PYG{o}{.}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{y}\PYG{p}{,} \PYG{n}{y}\PYG{p}{))}
+
+          \PYG{c+c1}{\PYGZsh{} Stitch new Q vectors to net Q vectors}
+          \PYG{n}{Qt}\PYG{p}{[:,} \PYG{n}{kt}\PYG{p}{:(}\PYG{n}{kt} \PYG{o}{+} \PYG{n}{k}\PYG{p}{)]} \PYG{o}{=} \PYG{n}{Q}
+
+          \PYG{c+c1}{\PYGZsh{} update total k value}
+          \PYG{n}{kt} \PYG{o}{=} \PYG{n}{kt} \PYG{o}{+} \PYG{n}{k}
+
+          \PYG{c+c1}{\PYGZsh{} orthogonalize vectors using QR}
+          \PYG{k}{if} \PYG{n+nb}{iter} \PYG{o}{!=} \PYG{l+m+mi}{1}\PYG{p}{:}
+              \PYG{n}{Qh}\PYG{p}{,} \PYG{n}{Rh} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{qr}\PYG{p}{(}\PYG{n}{Qt}\PYG{p}{[:,} \PYG{p}{:}\PYG{n}{kt}\PYG{p}{])}
+              \PYG{n}{Qt}\PYG{p}{[:,} \PYG{p}{:}\PYG{n}{kt}\PYG{p}{]} \PYG{o}{=} \PYG{n}{Qh}
+
+          \PYG{c+c1}{\PYGZsh{} retreive modified k\PYGZhy{}recent Q vectors}
+          \PYG{n}{Q} \PYG{o}{=} \PYG{n}{Qt}\PYG{p}{[:,} \PYG{p}{(}\PYG{n}{kt} \PYG{o}{\PYGZhy{}} \PYG{n}{k}\PYG{p}{):}\PYG{n}{kt}\PYG{p}{]}
+
+          \PYG{c+c1}{\PYGZsh{} compute next best value for k}
+          \PYG{c+c1}{\PYGZsh{} current strategy uses minimized regret method based on solution to}
+          \PYG{c+c1}{\PYGZsh{} the egg drop algorithm problem}
+          \PYG{n}{k}       \PYG{o}{=} \PYG{n+nb}{min}\PYG{p}{(}\PYG{n}{sdim}\PYG{p}{,} \PYG{n}{k} \PYG{o}{+} \PYG{n}{math}\PYG{o}{.}\PYG{n}{ceil}\PYG{p}{((}\PYG{n}{iter\PYGZus{}max} \PYG{o}{\PYGZhy{}} \PYG{n+nb}{iter}\PYG{p}{)} \PYG{o}{*} \PYG{n}{sdim} \PYG{o}{/} \PYG{l+m+mf}{100.0}\PYG{p}{))} \PYG{o}{\PYGZhy{}} \PYG{n}{k}
+          \PYG{n+nb}{iter}    \PYG{o}{+=} \PYG{l+m+mi}{1}
+
+          \PYG{c+c1}{\PYGZsh{} update matrix A based on new Q vectors}
+          \PYG{c+c1}{\PYGZsh{} Note that new A matrices are essentially error matrices}
+          \PYG{c+c1}{\PYGZsh{} since we subtract approximate projection representations of the kth A matrix}
+          \PYG{n}{A} \PYG{o}{=} \PYG{n}{A} \PYG{o}{\PYGZhy{}} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{Q}\PYG{p}{,} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{Q}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{A}\PYG{p}{))}
+
+      \PYG{c+c1}{\PYGZsh{} set the final Q matrix}
+      \PYG{n}{Q} \PYG{o}{=} \PYG{n}{Qt}\PYG{p}{[:,} \PYG{p}{:}\PYG{n}{kt}\PYG{p}{]}
+
+      \PYG{c+c1}{\PYGZsh{} compute weights associated with the column space to approximate A}
+      \PYG{n}{B} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{Q}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{A}\PYG{p}{)}
+
+      \PYG{c+c1}{\PYGZsh{} return the two matrices}
+      \PYG{k}{return} \PYG{p}{(}\PYG{n}{Q}\PYG{p}{,} \PYG{n}{B}\PYG{p}{)}
+\end{Verbatim}

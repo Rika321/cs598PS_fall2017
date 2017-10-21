@@ -5,6 +5,10 @@ import scipy.sparse
 import myml.factorizations as myfac
 
 def evalKMeans(X, means):
+    # Author: Christian Howard
+    # Code to compute what cluster some input data is associated with based on distance from
+    # input means found via k-means
+
     (d, nd) = X.shape
     idx = np.zeros((1,nd),dtype=int)
 
@@ -19,6 +23,9 @@ def evalKMeans(X, means):
 
 
 def spectral(X, distfunc, num_means, max_iter = 1e3, tol = 1e-3, print_msg = False):
+    # Author: Christian Howard
+    # Method to perform spectral clustering via an Affinity Matrix formulation,
+    # given some distance function and the number of clusters you're looking for
 
     # get dimensions of data
     (d,nd) = X.shape
@@ -65,6 +72,8 @@ def spectral(X, distfunc, num_means, max_iter = 1e3, tol = 1e-3, print_msg = Fal
 
 
 def kmeans(X, num_means, max_iter = 1e3, tol = 1e-3, print_msg = False):
+    # Author: Christian Howard
+    # Function to perform k means on some input dataset X
 
     # initialize kmeans variables
     (d,nd)  = X.shape

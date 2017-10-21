@@ -1,0 +1,40 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+  \PYG{c+c1}{\PYGZsh{}import useful libraries}
+  \PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k+kn}{as} \PYG{n+nn}{np}
+  \PYG{k+kn}{import} \PYG{n+nn}{math}
+
+  \PYG{k}{def} \PYG{n+nf}{spectrogram}\PYG{p}{(}\PYG{n}{signal}\PYG{p}{,} \PYG{n}{ws} \PYG{o}{=} \PYG{l+m+mi}{1024}\PYG{p}{,} \PYG{n}{hs} \PYG{o}{=} \PYG{l+m+mi}{512}\PYG{p}{):}
+      \PYG{c+c1}{\PYGZsh{} Author: C. Howard}
+      \PYG{c+c1}{\PYGZsh{} Function to compute the baseline complex valued spectrogram for some sound.}
+      \PYG{c+c1}{\PYGZsh{} signal: a sound represented as a column vector}
+      \PYG{c+c1}{\PYGZsh{} ws    : the window size}
+      \PYG{c+c1}{\PYGZsh{} hs    : the hope size, aka the amount we shift from sample to sample}
+
+      \PYG{c+c1}{\PYGZsh{} compute Hamming weights}
+      \PYG{n}{alpha}   \PYG{o}{=} \PYG{l+m+mf}{0.54}
+      \PYG{n}{beta}    \PYG{o}{=} \PYG{l+m+mi}{1} \PYG{o}{\PYGZhy{}} \PYG{n}{alpha}
+      \PYG{n}{pi2}     \PYG{o}{=} \PYG{l+m+mf}{2.0}\PYG{o}{*}\PYG{n}{math}\PYG{o}{.}\PYG{n}{pi}
+      \PYG{n}{c}       \PYG{o}{=} \PYG{n}{pi2}\PYG{o}{/}\PYG{p}{(}\PYG{n}{ws}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}
+      \PYG{n}{w}       \PYG{o}{=} \PYG{n}{alpha} \PYG{o}{\PYGZhy{}} \PYG{n}{beta} \PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{cos}\PYG{p}{(}\PYG{n}{c}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{arange}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{ws}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{))}
+
+      \PYG{c+c1}{\PYGZsh{} compute DFT matrix}
+      \PYG{n}{p} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{arange}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{ws}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{.}\PYG{n}{reshape}\PYG{p}{(}\PYG{n}{ws}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}
+      \PYG{n}{F} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{exp}\PYG{p}{(} \PYG{o}{\PYGZhy{}}\PYG{p}{(}\PYG{n}{pi2}\PYG{o}{/}\PYG{n}{ws}\PYG{p}{)}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{p}\PYG{p}{,}\PYG{n}{p}\PYG{o}{.}\PYG{n}{T}\PYG{p}{)}\PYG{o}{*}\PYG{l+m+mi}{1j} \PYG{p}{)}  \PYG{o}{/} \PYG{n}{np}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{ws}\PYG{p}{)}
+
+      \PYG{c+c1}{\PYGZsh{} compute resulting local matrix}
+      \PYG{n}{D} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{multiply}\PYG{p}{(}\PYG{n}{F}\PYG{p}{,}\PYG{n}{w}\PYG{p}{)}
+
+      \PYG{c+c1}{\PYGZsh{} Compute number of samples in spectrogram}
+      \PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{,}\PYG{n}{c}\PYG{p}{)}     \PYG{o}{=} \PYG{n}{signal}\PYG{o}{.}\PYG{n}{shape}
+      \PYG{n}{num\PYGZus{}samples} \PYG{o}{=} \PYG{n}{math}\PYG{o}{.}\PYG{n}{floor}\PYG{p}{((}\PYG{n+nb}{len} \PYG{o}{\PYGZhy{}} \PYG{n}{hs}\PYG{p}{)}\PYG{o}{/}\PYG{p}{(}\PYG{n}{ws} \PYG{o}{\PYGZhy{}} \PYG{n}{hs}\PYG{p}{))}
+
+      \PYG{c+c1}{\PYGZsh{} initialize output S}
+      \PYG{n}{S} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{((}\PYG{n}{ws}\PYG{p}{,}\PYG{n}{num\PYGZus{}samples}\PYG{p}{),}\PYG{n}{dtype}\PYG{o}{=}\PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{F}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{]))}
+
+      \PYG{c+c1}{\PYGZsh{} loop through and construct S}
+      \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{num\PYGZus{}samples}\PYG{p}{):}
+      \PYG{n}{S}\PYG{p}{[:}\PYG{n}{ws}\PYG{p}{,} \PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{D}\PYG{p}{,}\PYG{n}{signal}\PYG{p}{[}\PYG{n}{i}\PYG{o}{*}\PYG{n}{hs}\PYG{p}{:(}\PYG{n}{i}\PYG{o}{*}\PYG{n}{hs}\PYG{o}{+}\PYG{n}{ws}\PYG{p}{),}\PYG{l+m+mi}{0}\PYG{p}{])}
+
+      \PYG{c+c1}{\PYGZsh{} return the output spectrogram}
+      \PYG{k}{return} \PYG{n}{S}\PYG{p}{[:}\PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{ws}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{),:]}
+\end{Verbatim}

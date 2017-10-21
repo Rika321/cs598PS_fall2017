@@ -1,5 +1,0 @@
-\contentsline {section}{\numberline {1}Problem 1 - An Audio Features Project}{3}{section.1}
-\contentsline {section}{\numberline {2}Problem 2 - Handwritten Digit Features}{13}{section.2}
-\contentsline {section}{\numberline {3}Problem 3 - The Geometry of Handwritten Digits}{15}{section.3}
-\contentsline {section}{\numberline {4}Software Used}{18}{section.4}
-\contentsline {section}{\numberline {5}Specialized Software Written}{19}{section.5}

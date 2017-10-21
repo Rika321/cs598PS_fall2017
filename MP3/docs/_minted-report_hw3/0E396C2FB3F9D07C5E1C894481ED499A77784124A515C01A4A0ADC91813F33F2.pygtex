@@ -1,0 +1,99 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k+kn}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{import} \PYG{n+nn}{math}
+\PYG{k+kn}{import} \PYG{n+nn}{myml.factorizations} \PYG{k+kn}{as} \PYG{n+nn}{myfac}
+
+\PYG{k}{def} \PYG{n+nf}{getGaussianDiscriminantParams}\PYG{p}{(}\PYG{n}{mean}\PYG{p}{,} \PYG{n}{covariance}\PYG{p}{,}\PYG{n}{ProbOmega}\PYG{p}{):}
+    \PYG{c+c1}{\PYGZsh{} Author: Christian Howard}
+    \PYG{c+c1}{\PYGZsh{} Function to get Gaussian discriminant function parameters given}
+    \PYG{c+c1}{\PYGZsh{} some mean, covariance, and probability of some class}
+
+    \PYG{n}{invC} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{inv}\PYG{p}{(}\PYG{n}{covariance}\PYG{p}{)}
+    \PYG{n}{Wm} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.5}\PYG{o}{*}\PYG{n}{invC}
+    \PYG{n}{Wv} \PYG{o}{=} \PYG{n}{invC}\PYG{n+nd}{@mean}
+    \PYG{n}{ws} \PYG{o}{=}  \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.5}\PYG{o}{*}\PYG{p}{(}\PYG{n}{mean}\PYG{o}{.}\PYG{n}{T}\PYG{n+nd}{@Wv}\PYG{p}{)}
+          \PYG{o}{\PYGZhy{}} \PYG{l+m+mf}{0.5}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{log}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{det}\PYG{p}{(}\PYG{n}{covariance}\PYG{p}{))}
+          \PYG{o}{+} \PYG{n}{np}\PYG{o}{.}\PYG{n}{log}\PYG{p}{(}\PYG{n}{ProbOmega}\PYG{p}{)}
+    \PYG{k}{return} \PYG{p}{(}\PYG{n}{Wm}\PYG{p}{,} \PYG{n}{Wv}\PYG{p}{,} \PYG{n}{ws}\PYG{p}{,} \PYG{n}{invC}\PYG{p}{)}
+
+\PYG{k}{def} \PYG{n+nf}{evalGaussianDiscriminant}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{discrParams} \PYG{p}{):}
+    \PYG{c+c1}{\PYGZsh{} Author: Christian Howard}
+    \PYG{c+c1}{\PYGZsh{} Function to compute a gaussian discriminant given some input X}
+    \PYG{c+c1}{\PYGZsh{} and a tuple with the discriminant parameters}
+
+    \PYG{n}{Wm} \PYG{o}{=} \PYG{n}{discrParams}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+    \PYG{n}{Wv} \PYG{o}{=} \PYG{n}{discrParams}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}
+    \PYG{n}{ws} \PYG{o}{=} \PYG{n}{discrParams}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}
+    \PYG{k}{return} \PYG{p}{(}\PYG{n}{x}\PYG{o}{.}\PYG{n}{T}\PYG{o}{.}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{Wm}\PYG{p}{)}\PYG{o}{*}\PYG{n}{x}\PYG{o}{.}\PYG{n}{T}\PYG{p}{)}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{(}\PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{+} \PYG{n}{Wv}\PYG{o}{.}\PYG{n}{T}\PYG{o}{.}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)} \PYG{o}{+} \PYG{n}{ws}
+
+\PYG{k}{def} \PYG{n+nf}{evalGuassianPDF}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{mean}\PYG{p}{,} \PYG{n}{cov}\PYG{p}{,} \PYG{n}{inv\PYGZus{}cov}\PYG{p}{):}
+    \PYG{c+c1}{\PYGZsh{} Author: Christian Howard}
+    \PYG{c+c1}{\PYGZsh{} Function to evaluate a Gaussian PDF in any dimension given the}
+    \PYG{c+c1}{\PYGZsh{} necessary hyperparameters}
+
+    \PYG{n}{delta} \PYG{o}{=} \PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{mean}
+    \PYG{k}{return} \PYG{n}{np}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{det}\PYG{p}{((}\PYG{l+m+mf}{2.0}\PYG{o}{*}\PYG{n}{math}\PYG{o}{.}\PYG{n}{pi}\PYG{p}{)}\PYG{o}{*}\PYG{n}{cov}\PYG{p}{))}
+            \PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{exp}\PYG{p}{(} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.5}\PYG{o}{*}\PYG{p}{(}\PYG{n}{delta}\PYG{o}{.}\PYG{n}{T}\PYG{o}{.}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{inv\PYGZus{}cov}\PYG{p}{)}\PYG{o}{*}\PYG{n}{delta}\PYG{o}{.}\PYG{n}{T}\PYG{p}{)}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{(}\PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{p}{)}
+
+\PYG{k}{def} \PYG{n+nf}{evalDiscriminantSet}\PYG{p}{(}\PYG{n}{X}\PYG{p}{,} \PYG{n}{discriminant\PYGZus{}list}\PYG{p}{):}
+    \PYG{c+c1}{\PYGZsh{} Author: Christian Howard}
+    \PYG{c+c1}{\PYGZsh{} Function to compute the classification given some input X}
+    \PYG{c+c1}{\PYGZsh{} and a list of discriminant functions that could label the}
+    \PYG{c+c1}{\PYGZsh{} input data}
+
+    \PYG{c+c1}{\PYGZsh{} get the total number of labels}
+    \PYG{n}{nlbl} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{discriminant\PYGZus{}list}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} get dimensions of data}
+    \PYG{p}{(}\PYG{n}{d}\PYG{p}{,}\PYG{n}{nd}\PYG{p}{)} \PYG{o}{=} \PYG{n}{X}\PYG{o}{.}\PYG{n}{shape}
+
+    \PYG{c+c1}{\PYGZsh{} init matrix for evaluating discriminants against data}
+    \PYG{n}{results} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{((}\PYG{n}{nlbl}\PYG{p}{,} \PYG{n}{nd}\PYG{p}{))}
+
+    \PYG{c+c1}{\PYGZsh{} loop discriminant functions and figure out}
+    \PYG{c+c1}{\PYGZsh{} the classification for each data point in X}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{nlbl}\PYG{p}{):}
+        \PYG{n}{results}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,} \PYG{p}{:]} \PYG{o}{=} \PYG{n}{discriminant\PYGZus{}list}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{eval}\PYG{p}{(}\PYG{n}{X}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} for each data point, find the index of the discriminant}
+    \PYG{c+c1}{\PYGZsh{} that says the data is best represented by its distribution}
+    \PYG{n}{max\PYGZus{}idx} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{argmax}\PYG{p}{(}\PYG{n}{results}\PYG{p}{,} \PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} return the max\PYGZus{}idx which represents}
+    \PYG{c+c1}{\PYGZsh{} the classification for each data point in X}
+    \PYG{k}{return} \PYG{n}{max\PYGZus{}idx}
+
+
+\PYG{k}{class} \PYG{n+nc}{Discriminant}\PYG{p}{:}
+    \PYG{c+c1}{\PYGZsh{} Author: Christian Howard}
+    \PYG{c+c1}{\PYGZsh{} Class representing a Gaussian discriminant function to help}
+    \PYG{c+c1}{\PYGZsh{} simplify creating and evaluating them}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Fpinv}      \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Wm}         \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Wv}         \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Ws}         \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cost\PYGZus{}diff}  \PYG{o}{=} \PYG{l+m+mf}{1.0}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{lbl\PYGZus{}dataset}\PYG{p}{,} \PYG{n}{num\PYGZus{}total\PYGZus{}data}\PYG{p}{,} \PYG{n}{Fpinv}\PYG{p}{,} \PYG{n}{cost\PYGZus{}diff}\PYG{o}{=}\PYG{l+m+mf}{1.0}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Fpinv} \PYG{o}{=} \PYG{n}{Fpinv}
+        \PYG{p}{(}\PYG{n}{d}\PYG{p}{,}\PYG{n}{nd}\PYG{p}{)}  \PYG{o}{=} \PYG{n}{lbl\PYGZus{}dataset}\PYG{o}{.}\PYG{n}{shape}
+        \PYG{n}{ldataset}\PYG{o}{=} \PYG{n}{Fpinv}\PYG{n+nd}{@lbl\PYGZus{}dataset}
+        \PYG{n}{mean}    \PYG{o}{=} \PYG{n}{myfac}\PYG{o}{.}\PYG{n}{getMeanData}\PYG{p}{(}\PYG{n}{ldataset}\PYG{p}{)}
+        \PYG{n}{Wsigma}  \PYG{o}{=} \PYG{n}{ldataset} \PYG{o}{\PYGZhy{}} \PYG{n}{mean}
+        \PYG{n}{cov}     \PYG{o}{=} \PYG{p}{(}\PYG{n}{Wsigma}\PYG{n+nd}{@Wsigma.T}\PYG{p}{)}\PYG{o}{/}\PYG{p}{(}\PYG{n}{nd}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0}\PYG{p}{)}
+        \PYG{n}{covinv}  \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{inv}\PYG{p}{(}\PYG{n}{cov}\PYG{p}{)}
+        \PYG{n}{Pomega}  \PYG{o}{=} \PYG{n}{nd}\PYG{o}{/}\PYG{n}{num\PYGZus{}total\PYGZus{}data}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Ws} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{log}\PYG{p}{(}\PYG{n}{Pomega}\PYG{p}{)}
+                  \PYG{o}{\PYGZhy{}} \PYG{l+m+mf}{0.5}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{log}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{det}\PYG{p}{(}\PYG{n}{cov}\PYG{p}{))}
+                  \PYG{o}{\PYGZhy{}} \PYG{l+m+mf}{0.5}\PYG{o}{*}\PYG{n}{mean}\PYG{o}{.}\PYG{n}{T}\PYG{err}{@}\PYG{p}{(}\PYG{n}{covinv}\PYG{n+nd}{@mean}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Wv} \PYG{o}{=} \PYG{p}{(}\PYG{n}{mean}\PYG{o}{.}\PYG{n}{T}\PYG{n+nd}{@covinv}\PYG{p}{)}\PYG{o}{.}\PYG{n}{T}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Wm} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.5}\PYG{o}{*}\PYG{n}{covinv}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cost\PYGZus{}diff} \PYG{o}{=} \PYG{n}{cost\PYGZus{}diff}
+
+    \PYG{k}{def} \PYG{n+nf}{eval}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,}\PYG{n}{x}\PYG{p}{):}
+        \PYG{n}{w} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Fpinv}\PYG{n+nd}{@x}
+        \PYG{k}{return} \PYG{n}{np}\PYG{o}{.}\PYG{n}{log}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cost\PYGZus{}diff}\PYG{p}{)}
+                \PYG{o}{+} \PYG{n}{evalGaussianDiscriminant}\PYG{p}{(}\PYG{n}{w}\PYG{p}{,(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Wm}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Wv}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Ws}\PYG{p}{))}
+\end{Verbatim}

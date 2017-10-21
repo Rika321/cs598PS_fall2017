@@ -1,0 +1,64 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+  \PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k+kn}{as} \PYG{n+nn}{np}
+
+  \PYG{k}{def} \PYG{n+nf}{separateClassData}\PYG{p}{(} \PYG{n}{X}\PYG{p}{,} \PYG{n}{Y}\PYG{p}{,} \PYG{n}{numdata\PYGZus{}or\PYGZus{}percent\PYGZus{}for\PYGZus{}training} \PYG{p}{):}
+      \PYG{c+c1}{\PYGZsh{} Author: Christian Howard}
+      \PYG{c+c1}{\PYGZsh{} Method to separate data into training and testing sets}
+      \PYG{c+c1}{\PYGZsh{} This method does this by getting either the number of data}
+      \PYG{c+c1}{\PYGZsh{} for training or the percent of data you want for training}
+
+      \PYG{c+c1}{\PYGZsh{} get parameter for number/percent of training data}
+      \PYG{p}{(}\PYG{n}{d}\PYG{p}{,}\PYG{n}{Nd}\PYG{p}{)} \PYG{o}{=} \PYG{n}{X}\PYG{o}{.}\PYG{n}{shape}
+      \PYG{n}{Ntr} \PYG{o}{=} \PYG{n}{numdata\PYGZus{}or\PYGZus{}percent\PYGZus{}for\PYGZus{}training}
+      \PYG{n}{frac}\PYG{o}{=} \PYG{n}{numdata\PYGZus{}or\PYGZus{}percent\PYGZus{}for\PYGZus{}training}
+      \PYG{k}{if} \PYG{n}{Ntr} \PYG{o}{\PYGZlt{}=} \PYG{l+m+mi}{1}\PYG{p}{:}
+          \PYG{n}{Ntr} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{Ntr}\PYG{o}{*}\PYG{n}{Nd}\PYG{p}{)}
+      \PYG{k}{else}\PYG{p}{:}
+          \PYG{n}{frac} \PYG{o}{=} \PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{Ntr}\PYG{p}{)} \PYG{o}{/} \PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{Nd}\PYG{p}{)}
+          \PYG{n}{Ntr} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{Ntr}\PYG{p}{)}
+
+      \PYG{c+c1}{\PYGZsh{} get the unique labels}
+      \PYG{n}{list\PYGZus{}y} \PYG{o}{=} \PYG{n}{Y}\PYG{o}{.}\PYG{n}{tolist}\PYG{p}{()[}\PYG{l+m+mi}{0}\PYG{p}{]}
+      \PYG{n}{ulbl} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{n+nb}{sorted}\PYG{p}{(}\PYG{n+nb}{list}\PYG{p}{(}\PYG{n+nb}{set}\PYG{p}{(}\PYG{n}{list\PYGZus{}y}\PYG{p}{))))}
+      \PYG{p}{(}\PYG{n}{nlbl}\PYG{p}{,)} \PYG{o}{=} \PYG{n}{ulbl}\PYG{o}{.}\PYG{n}{shape}
+
+      \PYG{c+c1}{\PYGZsh{} get subsets of data for training and testing}
+      \PYG{n}{Train}   \PYG{o}{=} \PYG{n+nb}{dict}\PYG{p}{()}
+      \PYG{n}{Test}    \PYG{o}{=} \PYG{n+nb}{dict}\PYG{p}{()}
+      \PYG{n}{Train}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}ulbls\PYGZsq{}}\PYG{p}{]}  \PYG{o}{=} \PYG{n}{ulbl}
+      \PYG{n}{Test}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}ulbls\PYGZsq{}}\PYG{p}{]}   \PYG{o}{=} \PYG{n}{ulbl}
+      \PYG{n}{Train}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}net\PYGZsq{}}\PYG{p}{]}    \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{([])}
+      \PYG{n}{Test}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}net\PYGZsq{}}\PYG{p}{]}     \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{([])}
+      \PYG{n}{Train}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}nlbl\PYGZsq{}}\PYG{p}{]}   \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{([])}
+      \PYG{n}{Test}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}nlbl\PYGZsq{}}\PYG{p}{]}    \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{([])}
+
+      \PYG{n}{sitr} \PYG{o}{=} \PYG{l+m+mi}{0}
+      \PYG{n}{sitt} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+      \PYG{k}{for} \PYG{n}{idx}\PYG{p}{,}\PYG{n}{label} \PYG{o+ow}{in} \PYG{n+nb}{zip}\PYG{p}{(}\PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{nlbl}\PYG{p}{),}\PYG{n}{ulbl}\PYG{p}{):}
+          \PYG{p}{(}\PYG{n}{idxv}\PYG{p}{,)} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{where}\PYG{p}{(}\PYG{n}{Y}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,:]} \PYG{o}{==} \PYG{n}{label}\PYG{p}{)}
+          \PYG{p}{(}\PYG{n}{nld}\PYG{p}{,)}  \PYG{o}{=} \PYG{n}{idxv}\PYG{o}{.}\PYG{n}{shape}
+          \PYG{k}{if} \PYG{n}{numdata\PYGZus{}or\PYGZus{}percent\PYGZus{}for\PYGZus{}training} \PYG{o}{\PYGZlt{}=} \PYG{l+m+mi}{1}\PYG{p}{:}
+              \PYG{n}{nltr}    \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{frac}\PYG{o}{*}\PYG{n}{nld}\PYG{p}{)}
+          \PYG{k}{else}\PYG{p}{:}
+              \PYG{n}{nltr}    \PYG{o}{=} \PYG{n}{numdata\PYGZus{}or\PYGZus{}percent\PYGZus{}for\PYGZus{}training}
+
+          \PYG{p}{(}\PYG{n}{idx1}\PYG{p}{,} \PYG{n}{idx2}\PYG{p}{)}\PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{n}{idxv}\PYG{p}{,[}\PYG{n}{nltr}\PYG{p}{])}
+
+          \PYG{n}{Train}\PYG{p}{[}\PYG{n}{label}\PYG{p}{]}\PYG{o}{=} \PYG{n}{X}\PYG{p}{[:,}\PYG{n}{idx1}\PYG{p}{]}
+          \PYG{n}{Test}\PYG{p}{[}\PYG{n}{label}\PYG{p}{]} \PYG{o}{=} \PYG{n}{X}\PYG{p}{[:,}\PYG{n}{idx2}\PYG{p}{]}
+
+          \PYG{k}{if} \PYG{n}{idx} \PYG{o}{!=} \PYG{l+m+mi}{0}\PYG{p}{:}
+              \PYG{n}{Train}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}net\PYGZsq{}}\PYG{p}{]}    \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{concatenate}\PYG{p}{(} \PYG{p}{(}\PYG{n}{X}\PYG{p}{[:,} \PYG{n}{idx1}\PYG{p}{],}\PYG{n}{Train}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}net\PYGZsq{}}\PYG{p}{]),} \PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{1} \PYG{p}{)}
+              \PYG{n}{Test}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}net\PYGZsq{}}\PYG{p}{]}     \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{concatenate}\PYG{p}{(} \PYG{p}{(}\PYG{n}{X}\PYG{p}{[:,} \PYG{n}{idx2}\PYG{p}{],}\PYG{n}{Test}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}net\PYGZsq{}}\PYG{p}{]),} \PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{1} \PYG{p}{)}
+              \PYG{n}{Train}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}nlbl\PYGZsq{}}\PYG{p}{]}   \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{concatenate}\PYG{p}{(} \PYG{p}{(}\PYG{n}{Y}\PYG{p}{[:,} \PYG{n}{idx1}\PYG{p}{],}\PYG{n}{Train}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}nlbl\PYGZsq{}}\PYG{p}{]),} \PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{1} \PYG{p}{)}
+              \PYG{n}{Test}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}nlbl\PYGZsq{}}\PYG{p}{]}    \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{concatenate}\PYG{p}{(} \PYG{p}{(}\PYG{n}{Y}\PYG{p}{[:,} \PYG{n}{idx2}\PYG{p}{],}\PYG{n}{Test}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}nlbl\PYGZsq{}}\PYG{p}{]),} \PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{1} \PYG{p}{)}
+          \PYG{k}{else}\PYG{p}{:}
+              \PYG{n}{Train}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}net\PYGZsq{}}\PYG{p}{]}    \PYG{o}{=} \PYG{n}{X}\PYG{p}{[:,} \PYG{n}{idx1}\PYG{p}{]}
+              \PYG{n}{Test}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}net\PYGZsq{}}\PYG{p}{]}     \PYG{o}{=} \PYG{n}{X}\PYG{p}{[:,} \PYG{n}{idx2}\PYG{p}{]}
+              \PYG{n}{Train}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}nlbl\PYGZsq{}}\PYG{p}{]}   \PYG{o}{=} \PYG{n}{Y}\PYG{p}{[:,} \PYG{n}{idx1}\PYG{p}{]}
+              \PYG{n}{Test}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}nlbl\PYGZsq{}}\PYG{p}{]}    \PYG{o}{=} \PYG{n}{Y}\PYG{p}{[:,} \PYG{n}{idx2}\PYG{p}{]}
+
+      \PYG{c+c1}{\PYGZsh{} return the resulting training and testing data sets}
+      \PYG{k}{return} \PYG{p}{(}\PYG{n}{Train}\PYG{p}{,} \PYG{n}{Test}\PYG{p}{)}
+\end{Verbatim}

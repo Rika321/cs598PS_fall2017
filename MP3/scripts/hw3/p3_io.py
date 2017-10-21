@@ -26,7 +26,7 @@ def loadRecordedData():
     d2 = d*(int((freq-ws)/shift)+1)
     n2 = int(n*d/d2)
     N2 = n2*d2
-    Sm = Sm.reshape(1,d*n)[0,:N2].reshape(d2,n2)
+    Sm2 = Sm.reshape(1,d*n)[0,:N2].reshape(d2,n2)
 
 
     # get data for speech
@@ -42,10 +42,10 @@ def loadRecordedData():
     d2 = d * (int((freq - ws) / shift) + 1)
     n2 = int(n * d / d2)
     N2 = n2 * d2
-    Ss = Ss.reshape(1, d * n)[0, :N2].reshape(d2, n2)
+    Ss2 = Ss.reshape(1, d * n)[0, :N2].reshape(d2, n2)
 
     # return the resulting spectrograms
-    return (Sm,Ss,freq)
+    return (Sm2,Ss2,Sm, Ss, freq)
 
 def loadProvidedData():
 

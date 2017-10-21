@@ -3,6 +3,10 @@ import math
 import myml.factorizations as myfac
 
 def getGaussianDiscriminantParams(mean, covariance,ProbOmega):
+    # Author: Christian Howard
+    # Function to get Gaussian discriminant function parameters given
+    # some mean, covariance, and probability of some class
+
     invC = np.linalg.inv(covariance)
     Wm = -0.5*invC
     Wv = invC@mean
@@ -10,16 +14,29 @@ def getGaussianDiscriminantParams(mean, covariance,ProbOmega):
     return (Wm, Wv, ws, invC)
 
 def evalGaussianDiscriminant(x, discrParams ):
+    # Author: Christian Howard
+    # Function to compute a gaussian discriminant given some input X
+    # and a tuple with the discriminant parameters
+
     Wm = discrParams[0]
     Wv = discrParams[1]
     ws = discrParams[2]
     return (x.T.dot(Wm)*x.T).sum(axis=1) + Wv.T.dot(x) + ws
 
 def evalGuassianPDF(x, mean, cov, inv_cov):
+    # Author: Christian Howard
+    # Function to evaluate a Gaussian PDF in any dimension given the
+    # necessary hyperparameters
+
     delta = x - mean
     return np.sqrt(np.linalg.det((2.0*math.pi)*cov))*np.exp( -0.5*(delta.T.dot(inv_cov)*delta.T).sum(axis=1) )
 
 def evalDiscriminantSet(X, discriminant_list):
+    # Author: Christian Howard
+    # Function to compute the classification given some input X
+    # and a list of discriminant functions that could label the
+    # input data
+
     # get the total number of labels
     nlbl = len(discriminant_list)
 
@@ -42,7 +59,12 @@ def evalDiscriminantSet(X, discriminant_list):
     # the classification for each data point in X
     return max_idx
 
+
 class Discriminant:
+    # Author: Christian Howard
+    # Class representing a Gaussian discriminant function to help
+    # simplify creating and evaluating them
+
     def __init__(self):
         self.Fpinv      = []
         self.Wm         = []

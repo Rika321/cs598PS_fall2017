@@ -3,13 +3,8 @@ import numpy as np
 import numpy.linalg as la
 import math
 
-def getMeanData( D ):
-    (d,nd) = D.shape
-    mv = np.ones((nd,1))/nd
-    mean = D@mv
-    return mean
 
-def pca( D, k_or_tol , getSingularVals = True):
+def pca( D, k_or_tol ):
     # Author: C. Howard
     # method to perform PCA on some input data given the dimensionality
     # we want our resulting features to have or given a tolerance on the
@@ -35,9 +30,7 @@ def pca( D, k_or_tol , getSingularVals = True):
     Winv    = U[:, :k]
 
     # return weights and original singular values
-    if getSingularVals:
-        return (W,Winv,k,S)
-    return (W,Winv,k)
+    return (W,Winv,S)
 
 def ica( D , eps = 1e-6, random_seed = 17, useStandard=True):
     # Author: C. Howard
@@ -121,45 +114,7 @@ def ica( D , eps = 1e-6, random_seed = 17, useStandard=True):
     return (W,Winv)
 
 
-def randproj(A, k, random_seed = 17, num_power_method = 5):
-    ''' Author: Christian Howard
-    This function is designed to take some input matrix A
-    and approximate it by the low-rank form A = Q*(Q^T*A) = Q*B.
-    This form is achieved using randomized algorithms.
-    
-    Inputs:
-    A: Matrix to be approximated by low-rank form
-    k: The target rank the algorithm will strive for.
-    random_seed: The random seed used in code so things are repeatable.
-    num_power_method: Number of power method iterations '''
-
-    # set the random seed
-    np.random.seed(seed=random_seed)
-
-    # get dimensions of A
-    (r, c) = A.shape
-
-    # get the random input and measurements from column space
-    omega   = np.random.randn(c, k)
-    Y       = np.matmul(A, omega)
-
-    # form estimate for Q using power method
-    for i in range(1, num_power_method):
-        Q1, R1 = np.linalg.qr(Y)
-        Q2, R2 = np.linalg.qr(np.matmul(A.T, Q1[:, :k]))
-        Y = np.matmul(A, Q2[:, :k])
-    Q3, R3 = np.linalg.qr(Y)
-
-    # get final k orthogonal vector estimates from column space
-    Q = Q3[:, :k]
-
-    # compute weights associated with the column space to approximate A
-    B = np.matmul(Q.T,A)
-
-    # return the two matrices
-    return (Q,B)
-
-def projrep(A, k_or_tol, use_tol = False, return_k = False, random_seed = 17, num_power_method = 5, num_adapt_kstep = 7):
+def projrep(A, k_or_tol, random_seed = 17, num_power_method = 4):
     # Author: Christian Howard
     # This function is designed to take some input matrix A
     # and approximate it by the low-rank form A = Q*(Q^T*A) = Q*B.
@@ -171,16 +126,13 @@ def projrep(A, k_or_tol, use_tol = False, return_k = False, random_seed = 17, nu
     # k_or_tol: If value >= 1, it sets that rank as the target.
     #           If 0 < value < 1, tries to adaptively find low rank form
 
-    # set the random seed
-    np.random.seed(seed=random_seed)
-
     # get dimensions of A
     (r, c) = A.shape
 
     # get the smallest dimension
     sdim = min(r, c)
 
-    if not use_tol and k_or_tol >= 1:
+    if k_or_tol >= 1:
         k = int(k_or_tol)
 
         # get the random input and measurements from column space
@@ -201,86 +153,81 @@ def projrep(A, k_or_tol, use_tol = False, return_k = False, random_seed = 17, nu
         B = np.matmul(Q.T,A)
 
         # return the two matrices
-        if return_k:
-            return (Q,B,k)
-        else:
-            return (Q,B)
+        return (Q,B)
     else:
 
         # init some variables used in algorithm
         eps = k_or_tol
         err = 1e20
         kt  = 0
-        k   = num_adapt_kstep
-        Qt  = np.zeros((r, c))
-        At  = np.copy(A)
-        iter= 1
-        Q   = np.zeros((r,k))
+        k   = math.ceil(0.14 * sdim)
+        iter_max    = 14
+        iter        = 1
+        Qt = np.zeros((r, c))
 
         # adaptively try to estimate the rank via
         # finding column space estimates
-        while err > eps and kt < (sdim-k):
+        while err > eps and iter_max != iter:
 
             # get the random input and measurements
             omega = np.random.randn(c, k)
-            Y = np.matmul(At, omega)
+            Y = np.matmul(A, omega)
 
             # form estimate for Q using power method
             for i in range(1, num_power_method):
                 Q1, R1 = np.linalg.qr(Y)
-                Q2, R2 = np.linalg.qr(np.matmul(At.T, Q1[:, :k]))
-                Y = np.matmul(At, Q2[:, :k])
+                Q2, R2 = np.linalg.qr(np.matmul(A.T, Q1[:, :k]))
+                Y = np.matmul(A, Q2[:, :k])
             Q3, R3 = np.linalg.qr(Y)
             Q = Q3[:, :k]  # get final k orthogonal vector estimates from column space
 
+            # compute error estimate
+            o = Q[:, 0]  # use eigenvector from A as initial "random" vec
+
             # compute normalized eigenvector estimate for error matrix E
-            z = np.matmul(At, omega[:,0])
+            z = np.matmul(A, o)
             y = z - np.matmul(Q, np.matmul(Q.T, z))
-            y = y / np.linalg.norm(y)
+            y = y / np.amax(y)
 
             # use multiple iterations of power method y = (E*E')^{n}*y
             # to get most dominant singular vector
-            for i in range(0, num_power_method):
-                z = y - np.matmul(Q, np.matmul(Q.T, y))
-                y = np.matmul(At.T,z)
-                y = y / np.linalg.norm(y)
-                z = np.matmul(At, y)
+            for i in range(1, num_power_method):
+                z = np.matmul(A.T, y)
                 y = z - np.matmul(Q, np.matmul(Q.T, z))
-                y = y / np.linalg.norm(y)
+                y = y / np.amax(y)
+                z = np.matmul(A, y)
+                y = z - np.matmul(Q, np.matmul(Q.T, z))
+                y = y / np.amax(y)
 
             # compute largest singular value estimate based on dominant singular vector
             # assume singular value estimate as the error since same as 2-norm of E
-            z = y - np.matmul(Q, np.matmul(Q.T, y))
-            t = np.matmul(At.T, z)
-            err = (t.T@t) / (y.T@y)
-
-
+            z = np.matmul(A, y)
+            err = abs(np.dot(y, z - np.matmul(Q, np.matmul(Q.T, z))) / np.dot(y, y))
 
             # Stitch new Q vectors to net Q vectors
             Qt[:, kt:(kt + k)] = Q
 
             # update total k value
-            kt      = kt + k
-            iter    += 1
+            kt = kt + k
 
-            # orthogonalize vectors using gram schmidt
-            #if iter != 1:
-            #    Qh, Rh = np.linalg.qr(Qt[:, :kt])
-            #    Qt[:, :kt] = Qh
+            # orthogonalize vectors using QR
             if iter != 1:
-                s = kt - k
-                for i in range(s,kt):
-                    for j in range(0,i-1):
-                        Qt[:,i] = Qt[:,i] - (np.dot(Qt[:,i],Qt[:,j])/np.dot(Qt[:,j],Qt[:,j]))*Qt[:,j]
-                    Qt[:,i] = Qt[:,i]/np.sqrt(np.dot(Qt[:,i],Qt[:,i]))
+                Qh, Rh = np.linalg.qr(Qt[:, :kt])
+                Qt[:, :kt] = Qh
 
             # retreive modified k-recent Q vectors
             Q = Qt[:, (kt - k):kt]
 
+            # compute next best value for k
+            # current strategy uses minimized regret method based on solution to
+            # the egg drop algorithm problem
+            k       = min(sdim, k + math.ceil((iter_max - iter) * sdim / 100.0)) - k
+            iter    += 1
+
             # update matrix A based on new Q vectors
             # Note that new A matrices are essentially error matrices
             # since we subtract approximate projection representations of the kth A matrix
-            At = At - np.matmul(Q, np.matmul(Q.T, At))
+            A = A - np.matmul(Q, np.matmul(Q.T, A))
 
         # set the final Q matrix
         Q = Qt[:, :kt]
@@ -289,9 +236,6 @@ def projrep(A, k_or_tol, use_tol = False, return_k = False, random_seed = 17, nu
         B = np.matmul(Q.T, A)
 
         # return the two matrices
-        if return_k:
-            return (Q,B,kt)
-        else:
-            return (Q,B)
+        return (Q, B)
 
 

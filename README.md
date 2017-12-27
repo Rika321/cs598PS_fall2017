@@ -13,7 +13,7 @@ This problem set was really more of a basic mathematical and signal processing p
 ### Problem Set 2
 Within this problem set, a big goal was to use unsupervised learning techniques, such as PCA, ICA, and NMF, to investigated dimensionality reductions on some audio and computer vision related problems. For some of the image data, some manifold learning techniques were done to see if there was some underlying, nonlinear structure in some handwritten digit image datasets. 
 
-## Problem Set 3
+### Problem Set 3
 This problem set was pretty heavily revolved around classification problems. The first problem revolved around some fundamental theory to Gaussian Discriminant Functions. The second problem revolved around using Gaussian Discriminant Functions to classify digits. The third problem was to take a satellite image of some area of homes, some with pools, to come up with a pool detector. The approach was open to individuals to figure out. I experimented with some clustering techniques, like k-means and affinity matrix based clustering, but found these were not too useful since pools were treated as outliers relative to the other pixels in the image. The resulting approach ended up being to mark the image with three classes, one for pools, one for the ground, and one for the roads. Using this labeled data, a Gaussian Discriminant Classifier was constructed to classify parts of the image and was used to produce a fairly robust pool detector.
 
 ## Final Project
